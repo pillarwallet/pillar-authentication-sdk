@@ -1,6 +1,7 @@
 //var ethUtil = require("ethereumjs-util");
 var EC = require("elliptic").ec;
 var hashProvider = require("./src/providers/Hash.js");
+var parseProvider = require("./src/providers/Parse.js");
    /** 
     * Register a new wallet on BCX
     * @method sign
