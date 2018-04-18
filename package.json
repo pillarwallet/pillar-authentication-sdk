@@ -1,0 +1,24 @@
+{
+  "name": "plr-auth-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pillarwallet/pillar-authentication-sdk.git"
+  },
+  "author": "Rafael Cidade <rafael@pillarproject.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pillarwallet/pillar-authentication-sdk/issues"
+  },
+  "homepage": "https://github.com/pillarwallet/pillar-authentication-sdk#readme",
+  "dependencies": {
+    "elliptic": "^6.4.0",
+    "js-sha3": "^0.7.0",
+    "jshashes": "^1.0.7"
+  }
+}
