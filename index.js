@@ -1,21 +1,38 @@
-//var ethUtil = require("ethereumjs-util");
 var EC = require("elliptic").ec;
+const BN = require('bn.js');
 var hashProvider = require("./src/providers/Hash.js");
-var parseProvider = require("./src/providers/Parse.js");
+var ec = new EC('secp256k1');
+
+
    /** 
-    * Register a new wallet on BCX
+    * Sign a payload
     * @method sign
-    * @param  {Object} data   
-    * @param  {String} privateKey
-    * @param  {String} hash
-    * @return {String}
+    * @param  {Object} data Payload to be signed
+    * @param  {String} privateKey Signer's private key
+    * @param  {String} hash Hash algorithm
+    * @return {String} DER signature
     */
 
 exports.sign = (data, privateKey, hash) => {
-    var ec = new EC('secp256k1');
     var key = ec.keyFromPrivate(privateKey,"hex");
     var digest  =  hashProvider.hashTable[hash](JSON.stringify(data));
-    var signature =  ec.sign(digest, key, "hex");
-    return  signature.r.toString("hex")+ signature.s.toString("hex") + (signature.recoveryParam);
+    var signature =  ec.sign(digest, key, "hex").toDER();
+    return signature;
 }
-  
+
+/** 
+    * Signature verification 
+    * @method verify
+    * @param  {Object} data Signed payload (including signature) 
+    * @param  {String} publicKey Signer's public key 
+    * @param  {String} hash Hash algorithm
+    * @return {Bool} Bool
+    */
+exports.verify = (data, publicKey, hash) =>{    
+    var key = ec.keyFromPublic(publicKey, 'hex');
+    var signature = data.signature;
+    delete data['signature'];
+    var digest  =  hashProvider.hashTable[hash](JSON.stringify(data));
+    return key.verify(digest,signature);
+}
+

@@ -10,7 +10,6 @@
     "type": "git",
     "url": "git+https://github.com/pillarwallet/pillar-authentication-sdk.git"
   },
-  "author": "Rafael Cidade <rafael@pillarproject.io>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pillarwallet/pillar-authentication-sdk/issues"
@@ -19,6 +18,7 @@
   "dependencies": {
     "elliptic": "^6.4.0",
     "js-sha3": "^0.7.0",
-    "jshashes": "^1.0.7"
+    "jshashes": "^1.0.7",
+    "react": "^16.3.2"
   }
 }
