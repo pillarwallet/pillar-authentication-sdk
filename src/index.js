@@ -1,6 +1,6 @@
 const BN = require('bn.js');
-var hashProvider = require("./src/providers/Hash.js");
-var curveProvider = require("./src/providers/Curve.js");
+var hashProvider = require("./providers/Hash.js");
+var curveProvider = require("./providers/Curve.js");
 
 
    /** 
@@ -9,7 +9,7 @@ var curveProvider = require("./src/providers/Curve.js");
     * @param  {Object} data Payload to be signed
     * @param  {String} privateKey Signer's private key
     * @param  {Object} type Signature type { curve: curve (string), hash: hash algorithm (string)}
-    * @return {String} DER signature
+    * @return {String} 64 bytes hex signature
     */
 
 exports.sign = (data, privateKey, type = {curve:"secp256k1", hash:"KECCAK256"}) => {
@@ -20,8 +20,8 @@ exports.sign = (data, privateKey, type = {curve:"secp256k1", hash:"KECCAK256"}) 
     var ec = curveProvider.curveTable[type.curve]();
     var key = ec.keyFromPrivate(privateKey,"hex");
     var digest  =  hashProvider.hashTable[type.hash](JSON.stringify(data));
-    var signature =  ec.sign(digest, key, "hex").toDER();
-    return signature;
+    var signature =  ec.sign(digest, key, "hex");
+    return signature.r.toString("hex") + signature.s.toString("hex");
 }
 
 /** 
@@ -40,7 +40,10 @@ exports.verify = (data, publicKey, type = {curve:"secp256k1", hash:"KECCAK256"})
     }
     var ec = curveProvider.curveTable[type.curve]();
     var key = ec.keyFromPublic(publicKey, 'hex');
-    var signature = data.signature;
+    var signature = {
+       r : new BN(data.signature.slice(0,64),16),
+       s : new BN(data.signature.slice(64), 16)
+    }
     delete data['signature'];
     var digest  =  hashProvider.hashTable[type.hash](JSON.stringify(data));
     return key.verify(digest,signature);
