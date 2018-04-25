@@ -1,5 +1,9 @@
 var assert = require('assert');
 var auth = require('../');
+var curveProvider = require("../src/providers/Curve.js");
+var hashProvider = require("../src/providers/Hash.js");
+var EC = require("elliptic").ec;
+var sha3 = require('js-sha3');
 
     
 describe('Signature', function() {
@@ -37,3 +41,42 @@ describe('Signature', function() {
         assert.ok(!auth.verify(signedPayload, publicKey));
     });
 });
+
+describe('Curve', function() {
+    it('Should return corresponding elliptic curves', function() {
+
+        const curves = Object.keys(curveProvider.curveTable).length;
+        var key;
+        for (key = 0; key < curves; key++) {
+            var curve = Object.keys(curveProvider.curveTable)[key];
+            expect(curveProvider.curveTable[curve]()).toEqual(new EC(curve));
+        }
+    });
+});
+
+describe('Hash', function() {
+
+    it('Should return corresponding digest for each hash function', function() {
+
+        const hashFunctions = Object.keys(hashProvider.hashTable).length;
+        var key;
+        var message = "hello";
+        for (key = 0; key < hashFunctions; key++) {
+            
+            var hashFunction = Object.keys(hashProvider.hashTable)[key];    
+            
+            if (hashFunction == "SHAKE128" || hashFunction === "SHAKE256"){ 
+
+                var moduleDigest = hashProvider.hashTable[hashFunction](message,128);
+                var expectedDigest = sha3[hashFunction.toLowerCase()](message,128);
+                assert.equal(moduleDigest, expectedDigest);
+            }
+            else{
+
+                var moduleDigest = hashProvider.hashTable[hashFunction](message);
+                var expectedDigest = sha3[hashFunction.toLowerCase()](message);
+                assert.equal(moduleDigest, expectedDigest);
+            }
+        }
+    })
+})

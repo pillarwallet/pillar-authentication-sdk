@@ -21,14 +21,5 @@ exports.curveTable = {
     },
     "ed25519": () => {
         return new EC("ed25519");
-    },
-    "montgomery": () => {
-        return // 
-    },
-    "short": () => {
-        return //
-    },
-    "edwards": () => {
-        return //
     }
 }

@@ -25,11 +25,11 @@ exports.hashTable = {
     "SHA3_512": function(msg) {
         return sha3.sha3_512(msg);
     },
-    "SHAKE128": function(msg) {
-        return sha3.shake128(msg,256);
+    "SHAKE128": function(msg, length) {
+        return sha3.shake128(msg,length);
     },
-    "SHAKE256": function(msg) {
-        return sha3.shake256(msg,512);
+    "SHAKE256": function(msg, length) {
+        return sha3.shake256(msg,length);
     }
 };
 
