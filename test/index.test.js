@@ -18,7 +18,7 @@ describe('Signature', function() {
 
       });
 
-    it('Should verify a signature', function() {
+    it('Should accept the signature', function() {
       
     const signature = "a74b36f7421a52fd7b7857d77082b732a48ba994c8d23a1418650cf4ccdde68f5c8c7e25ec85754300507fea67c7dbe763e3168f0f1858afb1efa1b3ff8907c";
     const signedPayload = {
@@ -30,7 +30,7 @@ describe('Signature', function() {
 
     });
 
-    it('Should reject a signature', function() {
+    it('Should reject the signature', function() {
         
         const signature = "174b36f7421a52fd7b7857d77082b732a48ba994c8d23a1418650cf4ccdde68f5c8c7e25ec85754300507fea67c7dbe763e3168f0f1858afb1efa1b3ff8907c";
         const signedPayload = {
