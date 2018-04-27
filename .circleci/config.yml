@@ -24,6 +24,9 @@ jobs:
       - run:
           name: unit-test
           command:  npm run test:coverage
+      - run:
+          name: plato
+          command:  npm run plato
       - store_artifacts:
           path: ./reports/
           destination: reports
