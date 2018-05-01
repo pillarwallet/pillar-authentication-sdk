@@ -18,6 +18,38 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
+  test:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
       - run:
           name: yarn test
           command: yarn test
+  publish:
+    docker:
+      - image: circleci/node:4.8.2
+    steps:
+      - checkout
+      - run:
+          name: Add NPM_TOKEN to .npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - checkout
+      - run:
+          name: Publish
+          command: npm publish
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - publish:
+          requires:
+            - test
+          filters:
+            branches:
+              only: ci_publish_to_artifactory
