@@ -40,7 +40,7 @@ jobs:
       - checkout
       - run:
           name: set Registry
-          command: echo _auth = $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> .~/pillar-authentication-sdk/.npmrc
+          command: echo _auth = $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
       - run:
           name: //TODO remove this
           command: cat ~/pillar-authentication-sdk/.npmrc
