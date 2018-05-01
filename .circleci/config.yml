@@ -19,6 +19,7 @@ jobs:
           paths:
             - ./node_modules
   test:
+    working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
     steps:
@@ -32,6 +33,7 @@ jobs:
           name: yarn test
           command: yarn test
   publish:
+    working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
     steps:
