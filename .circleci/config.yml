@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/pillar
+    working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
     steps:
@@ -32,12 +32,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Add NPM_TOKEN to .npmrc
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-      - checkout
+          name: set Registry
+          command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
       - run:
-          name: Publish
-          command: npm publish
+          name: //TODO remove this
+          command: cat ~/pillar-authentication-sdk/.npmrc
+      - run:
+          name: Publish Package to Artifactory
+          command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
 
 workflows:
   version: 2
