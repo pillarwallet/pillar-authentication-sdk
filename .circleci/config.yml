@@ -39,8 +39,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: set Registry
-          command: echo "//pillarproject.jfrog.io/pillarproject/api/npm/npm-local/:_authToken=\${NPM_TOKEN}" > ~/pillar-authentication-sdk/.npmrc
+            name: Authenticate with registry
+            command: curl -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
+      - run:
+            name: set Registry
+            command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
       - run:
           name: Publish Package to Artifactory
           command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
