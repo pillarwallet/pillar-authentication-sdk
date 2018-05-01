@@ -40,13 +40,10 @@ jobs:
       - checkout
       - run:
           name: set Registry
-          command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
-      - run:
-          name: login
-          command: npm login
+          command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ./.npmrc
       - run:
           name: //TODO remove this
-          command: cat ~/pillar-authentication-sdk/.npmrc
+          command: cat ./.npmrc
       - run:
           name: Publish Package to Artifactory
           command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
