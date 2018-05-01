@@ -46,7 +46,9 @@ jobs:
             echo always-auth = true >> ~/pillar-authentication-sdk/.npmrc
       - run:
           name: //TODO remove this
-          command: cat ~/pillar-authentication-sdk/.npmrc
+          command: |
+            cat ~/pillar-authentication-sdk/.npmrc
+            npm set userconfig ~/pillar-authentication-sdk/.npmrc
       - run:
           name: Publish Package to Artifactory
           command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
