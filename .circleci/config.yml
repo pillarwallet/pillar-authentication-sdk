@@ -40,15 +40,7 @@ jobs:
       - checkout
       - run:
           name: set Registry
-          command: |
-            echo _auth = $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD > ~/pillar-authentication-sdk/.npmrc
-            echo email = devops@pillar.io >> ~/pillar-authentication-sdk/.npmrc
-            echo always-auth = true >> ~/pillar-authentication-sdk/.npmrc
-      - run:
-          name: //TODO remove this
-          command: |
-            cat ~/pillar-authentication-sdk/.npmrc
-            npm set userconfig ~/pillar-authentication-sdk/.npmrc
+          command: echo "//pillarproject.jfrog.io/pillarproject/api/npm/npm-local/:_authToken=\${NPM_TOKEN}" > .npmrc
       - run:
           name: Publish Package to Artifactory
           command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
