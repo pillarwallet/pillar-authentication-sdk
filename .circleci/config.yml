@@ -40,7 +40,7 @@ jobs:
       - checkout
       - run:
           name: set Registry
-          command: echo "//pillarproject.jfrog.io/pillarproject/api/npm/npm-local/:_authToken=\${NPM_TOKEN}" > .npmrc
+          command: echo "//pillarproject.jfrog.io/pillarproject/api/npm/npm-local/:_authToken=\${NPM_TOKEN}" > ~/pillar-authentication-sdk/.npmrc
       - run:
           name: Publish Package to Artifactory
           command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
