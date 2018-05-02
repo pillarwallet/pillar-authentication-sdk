@@ -67,4 +67,4 @@ workflows:
             - test
           filters:
             branches:
-              only: ci_publish_to_artifactory
+              only: master
