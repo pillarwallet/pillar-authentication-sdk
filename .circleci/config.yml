@@ -39,6 +39,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Append circleCI build number to version
+          command: |
+            git config user.email "devops@pillar.io"
+            git config user.name "Issabot"
+            npm version $(node -e "console.log( require('./package.json').version )")-$CIRCLE_BUILD_NUM
+      - run:
             name: Authenticate with registry
             command: curl -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
       - run:
