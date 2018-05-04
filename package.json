@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "plato": "es6-plato -r -d ./reports/plato ./src"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,30 @@
   "homepage": "https://github.com/pillarwallet/pillar-authentication-sdk#readme",
   "dependencies": {
     "elliptic": "^6.4.0",
-    "jest": "^22.4.3",
     "js-sha3": "^0.7.0",
     "jshashes": "^1.0.7",
     "react": "^16.3.2"
+  },
+  "devDependencies": {
+    "es6-plato": "latest",
+    "jest": "^22.4.3",
+    "jest-html-reporter": "2.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js}",
+      "!**/node_modules/**",
+      "!**/reports/**"
+    ],
+    "coverageReporters": [
+      "lcov"
+    ],
+    "coverageDirectory": "./reports",
+    "testResultsProcessor": "./node_modules/jest-html-reporter"
+  },
+  "jest-html-reporter": {
+    "pageTitle": "Jest results",
+    "outputPath": "./reports/jest/test-report.html",
+    "includeFailureMsg": true
   }
 }

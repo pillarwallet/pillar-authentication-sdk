@@ -18,8 +18,9 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-  test:
 
+  test:
+    working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
     steps:
@@ -30,8 +31,15 @@ jobs:
           name: install dependencies
           command: yarn install
       - run:
-          name: yarn test
-          command: yarn test
+          name: test and generate coverage
+          command: yarn run test:coverage
+      - run:
+          name: plato
+          command:  yarn run plato
+      - store_artifacts:
+          path: ./reports/
+          destination: reports
+
   publish:
     working_directory: ~/pillar-authentication-sdk
     docker:
