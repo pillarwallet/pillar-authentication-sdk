@@ -20,9 +20,9 @@ exports.sign = (data, privateKey, type = {curve:"secp256k1", hash:"KECCAK256"}) 
     var ec = curveProvider.curveTable[type.curve]();
     var key = ec.keyFromPrivate(privateKey,"hex");
     var digest  =  hashProvider.hashTable[type.hash](JSON.stringify(data));
-    var signature =  ec.sign(digest, key, "hex");
+    var signature =  ec.sign(digest, key, "hex",  {canonical:true});
     return {
-        signature: signature.r.toString("hex") + signature.s.toString("hex"),
+        signature: signature.r.toString("hex", 64) + signature.s.toString("hex", 64),
         recoveryParam: signature.recoveryParam
     }
 }
@@ -41,6 +41,7 @@ exports.verify = (data, publicKey, type = {curve:"secp256k1", hash:"KECCAK256"})
         curve: (type.curve === undefined) ? "secp256k1" : type.curve,
         hash: (type.hash === undefined) ? "KECCAK256" : type.hash
     }
+
     var ec = curveProvider.curveTable[type.curve]();
     var key = ec.keyFromPublic(publicKey, 'hex');
     var signature = {
