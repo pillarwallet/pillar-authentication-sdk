@@ -46,18 +46,15 @@ jobs:
             npm version $(node -e "console.log( require('./package.json').version )")-$CIRCLE_BUILD_NUM
       - run:
             name: Authenticate with registry
-            command: curl -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
+            command: echo "//registry.npmjs.org/:_authToken=$PILLAR_NPM_TOKEN" > ~/pillar-authentication-sdk/.npmrc
       - run:
-            name: set Registry
-            command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
-      - run:
-          name: Publish Package to Artifactory
-          command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
-      - run:
-          name: Announce Publish
-          command: |
-            chmod +x .circleci/announcePublish.sh
-            .circleci/announcePublish.sh "auth SDK" "$(node -e "console.log(require('./package.json').name)")@$(node -e "console.log(require('./package.json').version)")"
+          name: Publish Package to npmjs
+          command: npm publish
+      # - run:
+      #     name: Announce Publish
+      #     command: |
+      #       chmod +x .circleci/announcePublish.sh
+      #       .circleci/announcePublish.sh "auth SDK" "$(node -e "console.log(require('./package.json').name)")@$(node -e "console.log(require('./package.json').version)")"
 
 workflows:
   version: 2
