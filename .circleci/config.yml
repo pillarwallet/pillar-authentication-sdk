@@ -46,13 +46,15 @@ jobs:
             npm version $(node -e "console.log( require('./package.json').version )")-$CIRCLE_BUILD_NUM
       - run:
             name: Authenticate with registry
-            command: curl -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
-      - run:
-            name: set Registry
-            command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
+            command: echo "//registry.npmjs.org/:_authToken=$PILLAR_NPM_TOKEN" > ~/pillar-authentication-sdk/.npmrc
+            #command: curl -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
+      # - run:
+      #       name: set Registry
+      #       command: echo -u $ARTIFACTORY_PUBLISHING_USER:$ARTIFACTORY_PUBLISHING_PASSWORD https://pillarproject.jfrog.io/pillarproject/api/npm/auth >> ~/pillar-authentication-sdk/.npmrc
       - run:
           name: Publish Package to Artifactory
-          command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
+          command: npm publish
+          #command: npm publish   --registry https://pillarproject.jfrog.io/pillarproject/api/npm/npm/
       - run:
           name: Announce Publish
           command: |
@@ -72,4 +74,4 @@ workflows:
             - test
           filters:
             branches:
-              only: master
+              only: feature/deploy_to_npmjs
