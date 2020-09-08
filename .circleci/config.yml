@@ -48,7 +48,7 @@ jobs:
             name: Authenticate with registry
             command: echo "//registry.npmjs.org/:_authToken=$PILLAR_NPM_TOKEN" > ~/pillar-authentication-sdk/.npmrc
       - run:
-          name: Publish Package to Artifactory
+          name: Publish Package to npmjs
           command: npm publish
       # - run:
       #     name: Announce Publish
