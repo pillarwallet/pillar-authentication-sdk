@@ -4,6 +4,9 @@ jobs:
     working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
@@ -18,10 +21,13 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-  test:
 
+  test:
     docker:
       - image: circleci/node:8.9.4
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - restore_cache:
@@ -32,10 +38,14 @@ jobs:
       - run:
           name: yarn test
           command: yarn test
+          
   publish:
     working_directory: ~/pillar-authentication-sdk
     docker:
       - image: circleci/node:8.9.4
+        auth:
+          username: $DOCKERHUB_USER
+          password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run:
@@ -60,11 +70,14 @@ workflows:
   version: 2
   build_test_and_deploy:
     jobs:
-      - build
+      - build:
+          context: docker-hub-creds
       - test:
+          context: docker-hub-creds
           requires:
             - build
       - publish:
+          context: docker-hub-creds
           requires:
             - test
           filters:
