@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/pillarwallet/pillar-authentication-sdk#readme",
   "dependencies": {
-    "elliptic": "6.4.0",
+    "elliptic": "6.5.3",
     "jest": "22.4.3",
     "js-sha3": "0.7.0",
     "jshashes": "1.0.7",
